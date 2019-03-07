@@ -18,10 +18,13 @@
 		<dl>
 			<dt>Name</dt>
 			<dd>
-				???
+				<input type="text" name="name" value="<?= $pattern ?>"></dd>
 			</dd>
 			
-			<!-- Write other fiels similar to Name as specified in lab6.pdf -->
+			<dt>Email</dt>
+			<dd>
+				<input type="text" name="email" value="<?= $pattern ?>"></dd>
+			</dd>
 		</dl>
 		
 		<div>
