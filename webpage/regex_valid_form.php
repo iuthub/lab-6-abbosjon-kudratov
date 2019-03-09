@@ -6,8 +6,10 @@
 	$replaceText="";
 	$replacedText="";
 	$mailPattern='/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
+	$phoneNumberPattern="/^\+[\d]{3}(\-){0,1}[\d]{2}(\-){0,1}[\d]{3}(\-){0,1}[\d]{2}(\-){0,1}[\d]{2}(\-){0,1}$/";
 	$match="Not checked yet.";
 	$isEmail="Not sure yet.";
+	$isPhoneNumber="Not sure yet";
 
 if ($_SERVER["REQUEST_METHOD"]=="POST") {
 	$pattern=$_POST["pattern"];
@@ -26,6 +28,14 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
 	} else {
 				$isEmail="it is not a valid email !";
 	}
+
+	if(preg_match($phoneNumberPattern, $text)){
+				$isPhoneNumber="it is a valid Phone number !";
+	} else {
+				$isPhoneNumber="it is not a valid Phone Number !";
+	}
+
+
 }
 
 ?>
@@ -51,9 +61,10 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
 
 			<dt>Output Text</dt>
 			<dd><?=	$match ?></dd>
-			<dt>Email check</dt>
+			<dt>Results:</dt>
 			<dd> <?=$isEmail ?></dd>
-
+			<dd> <?=$isPhoneNumber ?></dd>
+			
 			<dt>Replaced Text</dt>
 			<dd> <code><?=	$replacedText ?></code></dd>
 
