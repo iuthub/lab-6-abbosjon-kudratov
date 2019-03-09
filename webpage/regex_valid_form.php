@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
 					} else {
 						$match="Does not match!";
 					}
-	if(preg_match($isEmail, $text)){
+	if(preg_match($mailPattern, $text)){
 				$isEmail="it is a valid email address!";
 	} else {
 				$isEmail="it is not a valid email !";
