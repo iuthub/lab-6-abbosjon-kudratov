@@ -83,13 +83,29 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
 			<dt>Replace Text</dt>
 			<dd><input type="text" name="replaceText" value="<?= $replaceText ?>"></dd>
 
+			<dt>&nbsp;</dt>
 			<dt>Output Text</dt>
 			<dd><?=	$match ?></dd>
 			<dt>Results:</dt>
 			<dd> <?=$isEmail ?></dd>
 			<dd> <?=$isPhoneNumber ?></dd>
+			<dt>&nbsp;</dt>
+			<dt>Spaces removed:</dt>
+			<dd>  <?php 
+				$str=preg_replace('/\s/', '', $text);
+				print($str);
 
+				?></dd>
 
+			<dt>&nbsp;</dt>
+			<dt>Nonnumerics removed (except for dot and comma):</dt>
+			<dd>  <?php 
+				$str=preg_replace('/[^0-9\.\,]*/', '', $text);
+				print($str);
+
+				?></dd>
+			
+			<dt>&nbsp;</dt>
 			<dt>Search Results:</dt>
 			<dd> <?=$match1 ?></dd>
 			<dd> <?php    
