@@ -1,11 +1,13 @@
 <?php
 
+	error_reporting(0);
 	$pattern="";
 	$text="";
 	$replaceText="";
 	$replacedText="";
-
+	$mailPattern='/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
 	$match="Not checked yet.";
+	$isEmail="Not sure yet.";
 
 if ($_SERVER["REQUEST_METHOD"]=="POST") {
 	$pattern=$_POST["pattern"];
@@ -19,6 +21,11 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
 					} else {
 						$match="Does not match!";
 					}
+	if(preg_match($isEmail, $text)){
+				$isEmail="it is a valid email address!";
+	} else {
+				$isEmail="it is not a valid email !";
+	}
 }
 
 ?>
@@ -44,6 +51,8 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
 
 			<dt>Output Text</dt>
 			<dd><?=	$match ?></dd>
+			<dt>Email check</dt>
+			<dd> <?=$isEmail ?></dd>
 
 			<dt>Replaced Text</dt>
 			<dd> <code><?=	$replacedText ?></code></dd>
