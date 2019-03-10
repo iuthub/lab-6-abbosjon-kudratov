@@ -119,6 +119,20 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
 				?></dd>
 
 			<dt>&nbsp;</dt>
+			
+			<dt>Select words inside parathesis:</dt>
+			<dd>  <?php 
+				 $in = $textfix;
+    			preg_match_all('/\[([A-Za-z0-9 ]+?)\]/', $in, $out);
+    			preg_replace('/[\[]*[\]]*/', '', $out);
+    			foreach ($out[0] as  $value) {
+    				print_r($value);
+    			};
+
+				?></dd>
+
+			<dt>&nbsp;</dt>
+
 
 			<dt>Search Results:</dt>
 			<dd> <?=$match1 ?></dd>
