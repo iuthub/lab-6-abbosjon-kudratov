@@ -15,7 +15,7 @@
 	$isPhoneNumber="Not sure yet";
 
 if ($_SERVER["REQUEST_METHOD"]=="POST") {
-	
+	$textfix=$_POST["textfix"];
 	$pattern=$_POST["pattern"];
 	$text=$_POST["text"];
 	$replaceText=$_POST["replaceText"];
@@ -76,6 +76,10 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
 			<dt>Text:</dt>
 			<dd><input type="text" name="text" value="<?= $text ?>"></dd>
 
+			<textarea rows="4" cols="50" name="textfix" value="<?=$textfix ?>">
+			Enter some useless text here with as many new lines as you want..
+			</textarea>
+
 
 			<dt>Search a substring:</dt>
 			<dd><input type="text" name="search" value="<?= $search ?>"></dd>
@@ -106,6 +110,16 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
 				?></dd>
 			
 			<dt>&nbsp;</dt>
+
+			<dt>New lines removed:</dt>
+			<dd>  <?php 
+				$str=preg_replace('/$s+/', '', $textfix);
+				print($str);
+
+				?></dd>
+
+			<dt>&nbsp;</dt>
+
 			<dt>Search Results:</dt>
 			<dd> <?=$match1 ?></dd>
 			<dd> <?php    
