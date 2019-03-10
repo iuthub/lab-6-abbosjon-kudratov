@@ -19,7 +19,7 @@
 	$isNameError=$isPost && !preg_match('/[a-z]{2,}/i', $name); 
 	$isGenderError=$isPost && !$gender;
 	$isBirthdateError=$isPost && !$birthdate;
-	$isUsernameError=$isPost && !$username;
+	$isUsernameError=$isPost && !preg_match('/[\w]{5,}/i', $username);
 	$isPasswordError=$isPost && !$password || ($password!=$password1);
 	$isEmailError=$isPost && !preg_match($mailPattern, $email);
 
@@ -87,7 +87,10 @@
 			
 			<fieldset>	<legend> Username & Password </legend>
 
-					<input type="text" name="username" value="<?= $username?>"  required> Username<br /><br />
+					<input type="text" name="username" value="<?= $username?>"  required> Username<br />
+					<span class="error"><?= $isUsernameError?"It has to contain at least 5 characters!" : "" ?></span>
+					<br />
+					
 					<input type="password" name="password" value="<?= $password ?>"  required> Password<br /> <br />
 					<input type="password" name="password1" value="<?= $password1 ?>"  required> Confirm Password<br /> <br />
 
