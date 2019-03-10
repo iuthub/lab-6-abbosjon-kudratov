@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
     			preg_match_all('/\[([A-Za-z0-9 ]+?)\]/', $in, $out);
     			preg_replace('/[\[]*[\]]*/', '', $out);
     			foreach ($out[0] as  $value) {
-    				print_r($value);
+    				print($value);
     			};
 
 				?></dd>
