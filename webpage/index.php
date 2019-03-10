@@ -20,10 +20,11 @@
 	$isGenderError=$isPost && !$gender;
 	$isBirthdateError=$isPost && !$birthdate;
 	$isUsernameError=$isPost && !preg_match('/[\w]{5,}/i', $username);
-	$isPasswordError=$isPost && !$password || ($password!=$password1);
+	$isPasswordError=$isPost && !preg_match('/[\w]{8,}/i', $username);
+	$isPasswordError1=  ($password!=$password1);
 	$isEmailError=$isPost && !preg_match($mailPattern, $email);
 
-	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError;
+	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1;
 
 
 
@@ -91,8 +92,11 @@
 					<span class="error"><?= $isUsernameError?"It has to contain at least 5 characters!" : "" ?></span>
 					<br />
 					
-					<input type="password" name="password" value="<?= $password ?>"  required> Password<br /> <br />
-					<input type="password" name="password1" value="<?= $password1 ?>"  required> Confirm Password<br /> <br />
+					<input type="password" name="password" value="<?= $password ?>"  required> Password<br />
+					<span class="error"><?= $isPasswordError?"Password should consist of minimum 8 characters!" : "" ?></span> <br />
+
+					<input type="password" name="password1" value="<?= $password1 ?>"  required> Confirm Password<br />
+					<span class="error"><?= $isPasswordError1?"Passwords don't match!" : "" ?></span> <br />
 
 					<input type="text" name="email" value="<?= $email ?>" required> Email<br />
 					<span class="error"><?= $isEmailError?"It is not a valid email!" : "" ?></span> <br />
