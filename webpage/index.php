@@ -13,12 +13,15 @@
 
 	$isPost= $_SERVER["REQUEST_METHOD"]=="POST";
 	$isGet = $_SERVER["REQUEST_METHOD"]=="GET";
+	$mailPattern='/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
+
 
 	$isNameError=$isPost && !preg_match('/[a-z]{2,}/i', $name); 
 	$isGenderError=$isPost && !$gender;
 	$isBirthdateError=$isPost && !$birthdate;
 	$isUsernameError=$isPost && !$username;
 	$isPasswordError=$isPost && !$password || ($password!=$password1);
+	$isEmailError=$isPost && !preg_match($mailPattern, $email);
 
 	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError;
 
@@ -88,7 +91,8 @@
 					<input type="password" name="password" value="<?= $password ?>"  required> Password<br /> <br />
 					<input type="password" name="password1" value="<?= $password1 ?>"  required> Confirm Password<br /> <br />
 
-					<input type="text" name="email" value="<?= $email ?>" required> Email<br /> <br />
+					<input type="text" name="email" value="<?= $email ?>" required> Email<br />
+					<span class="error"><?= $isEmailError?"It is not a valid email!" : "" ?></span> <br />
 
 
 			</fieldset>
