@@ -14,7 +14,7 @@
 	$isPost= $_SERVER["REQUEST_METHOD"]=="POST";
 	$isGet = $_SERVER["REQUEST_METHOD"]=="GET";
 
-	$isNameError=$isPost && (strlen($name)!=2); 
+	$isNameError=$isPost && !preg_match('/[a-z]{2,}/i', $name); 
 	$isGenderError=$isPost && !$gender;
 	$isBirthdateError=$isPost && !$birthdate;
 	$isUsernameError=$isPost && !$username;
@@ -60,7 +60,7 @@
 			<fieldset> 
 				<legend> Some personal info here:</legend> 
 					<input type="text" name="name" value="<?= $name ?>" required> Name <br /> 
-					<span class="error"><?= $isNameError?"Name should be at least 2 characters!" : "" ?></span><br />
+					<span class="error"><?= $isNameError?"Name should be at least 2 characters! And non-numeric!" : "" ?></span><br />
 					
 					<input type="text" name="birthdate" value="<?= $birthdate ?>"> Date of birth<br /> <br />
 					Your Gender: 
