@@ -13,12 +13,14 @@
 	$homephone=$_REQUEST["homephone"];
 	$cellphone=$_REQUEST["cellphone"];
 	$card=$_REQUEST["card"];
+	$cardexpiry=$_REQUEST["cardexpiry"];
 
 
 	$isPost= $_SERVER["REQUEST_METHOD"]=="POST";
 	$isGet = $_SERVER["REQUEST_METHOD"]=="GET";
 	$phonePattern='/^[\d]{2}[\s]{0,1}[\d]{7}$/';
 	$mailPattern='/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
+	$cardexpiryPattern='/^(([0-2][0-9])|([3][0-1]))[\.]([0-1][0-2])[\.]((?:19|20)\d{2})$/';
 
 
 	$isNameError=$isPost && !preg_match('/[a-z]{2,}/i', $name); 
@@ -32,6 +34,7 @@
 	$isPhoneError=$isPost && !preg_match($phonePattern, $homephone);
 	$isPhoneError1=$isPost && !preg_match($phonePattern, $cellphone);
 	$isCardError=$isPost && !preg_match('/^[\d]{4}[\s]{0,1}[\d]{4}[\s]{0,1}[\d]{4}[\s]{0,1}[\d]{4}$/', $card);
+	$isCardExpiryError=$isPost && !preg_match($cardexpiryPattern, $cardexpiry);
 
 	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError || $isPhoneError || $isPhoneError1 || $isCardError;
 
@@ -100,17 +103,7 @@
 					<span class="error"><?= $isPostalError?"It is not a valid postal code! Please enter digits(6) only" : "" ?></span>
 					<br />
 
-					<input type="text" name="homephone" value="<?= $homephone ?>" required> Home Phone number (e.g. 99 8881411)<br />
-					<span class="error"><?= $isPhoneError?"It is not a valid phone number! Please enter in 9-digit form" : "" ?></span>
-					<br />
-
-					<input type="text" name="cellphone" value="<?= $cellphone ?>" required> Mobile Phone number (e.g. 99 8881411)<br />
-					<span class="error"><?= $isPhoneError1?"It is not a valid phone number! Please enter in 9-digit form" : "" ?></span>
-					<br />
-
-					<input type="text" name="card" value="<?= $card ?>" required> Credit Card Number (e.g. 1234 1234 1234 1234)<br />
-					<span class="error"><?= $isCardError?"It is not a valid credit card number! Please enter in 16-digit form" : "" ?></span>
-					<br />
+					
 
 					
 
@@ -118,7 +111,7 @@
 
 				&nbsp;
 			
-			<fieldset>	<legend> Username & Password and so on:</legend>
+			<fieldset>	<legend> Username & Password:</legend>
 
 					<input type="text" name="username" value="<?= $username?>"  required> Username<br />
 					<span class="error"><?= $isUsernameError?"It has to contain at least 5 characters!" : "" ?></span>
@@ -130,9 +123,33 @@
 					<input type="password" name="password1" value="<?= $password1 ?>"  required> Confirm Password<br />
 					<span class="error"><?= $isPasswordError1?"Passwords don't match!" : "" ?></span> <br />
 
-					<input type="text" name="email" value="<?= $email ?>" required> Email<br />
+					<input type="text" name="email" placeholder="example@company.com" value="<?= $email ?>" required> Email<br />
 					<span class="error"><?= $isEmailError?"It is not a valid email!" : "" ?></span> <br />
 
+
+
+			</fieldset>
+				<br />
+
+
+			<fieldset>
+					<legend> Phone Numbers & Payment Information</legend>
+					<input type="text" name="homephone" value="<?= $homephone ?>" required> Home Phone number (e.g. 99 8881411)<br />
+					<span class="error"><?= $isPhoneError?"It is not a valid phone number! Please enter in 9-digit form" : "" ?></span>
+					<br />
+
+					<input type="text" name="cellphone" value="<?= $cellphone ?>" required> Mobile Phone number (e.g. 99 8881411)<br />
+					<span class="error"><?= $isPhoneError1?"It is not a valid phone number! Please enter in 9-digit form" : "" ?></span>
+					<br />
+
+					<input type="text" name="card" value="<?= $card ?>" required> Credit Card Number (e.g. 1234 1234 1234 1234)<br />
+					<span class="error"><?= $isCardError?"It is not a valid credit card number! Please enter in 16-digit form" : "" ?></span>
+					<br />
+					
+
+					<input type="text" name="cardexpiry" placeholder="DD.MM.YYYY" value="<?= $cardexpiry ?>" required> Credit Card Expiry Date (e.g. 20.03.2019)<br />
+					<span class="error"><?= $isCardExpiryError?"It is not a valid date! Please enter valid expiry date" : "" ?></span>
+					<br />
 
 			</fieldset>
 			
