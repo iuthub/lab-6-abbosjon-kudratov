@@ -10,10 +10,13 @@
 	$password1=$_REQUEST["password1"];
 	$email=$_REQUEST["email"];
 	$postal=$_REQUEST["postal"];
-	
+	$homephone=$_REQUEST["homephone"];
+	$cellphone=$_REQUEST["cellphone"];
+
 
 	$isPost= $_SERVER["REQUEST_METHOD"]=="POST";
 	$isGet = $_SERVER["REQUEST_METHOD"]=="GET";
+	$phonePattern='/^[\d]{2}[\s]{0,1}[\d]{7}$/';
 	$mailPattern='/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
 
 
@@ -25,8 +28,10 @@
 	$isPasswordError1=  ($password!=$password1);
 	$isEmailError=$isPost && !preg_match($mailPattern, $email);
 	$isPostalError=$isPost && !preg_match('/^[\d]{6}$/', $postal);
+	$isPhoneError=$isPost && !preg_match($phonePattern, $homephone);
+	$isPhoneError1=$isPost && !preg_match($phonePattern, $cellphone);
 
-	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError;
+	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError || $isPhoneError || $isPhoneError1;
 
 
 
@@ -89,8 +94,16 @@
 					<br />
 					<input type="text" name="city" value="<?= $city ?>" required> City<br />
 					<br />
-					<input type="text" name="postal" value="<?= $postal ?>" required> Postal Code<br />
+					<input type="text" name="postal" value="<?= $postal ?>" required> Postal Code (e.g. 160000)<br />
 					<span class="error"><?= $isPostalError?"It is not a valid postal code! Please enter digits(6) only" : "" ?></span>
+					<br />
+
+					<input type="text" name="homephone" value="<?= $homephone ?>" required> Home Phone number (e.g. 99 8881411)<br />
+					<span class="error"><?= $isPhoneError?"It is not a valid phone number! Please enter in 9-digit form" : "" ?></span>
+					<br />
+
+					<input type="text" name="cellphone" value="<?= $cellphone ?>" required> Mobile Phone number (e.g. 99 8881411)<br />
+					<span class="error"><?= $isPhoneError1?"It is not a valid phone number! Please enter in 9-digit form" : "" ?></span>
 					<br />
 
 					
