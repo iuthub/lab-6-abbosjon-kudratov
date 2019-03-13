@@ -201,7 +201,10 @@
 </form>
 
 
-<?php } else { ?>
+<?php } 
+	if($isGet)
+ { 
+ 	?>
 	<h1>Thank you for your submission. Your info as following</h1>
 	<ul>
 		<li> Your Name:  <?=  $name ?></li>
