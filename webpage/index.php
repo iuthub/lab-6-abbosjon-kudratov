@@ -12,6 +12,7 @@
 	$postal=$_REQUEST["postal"];
 	$homephone=$_REQUEST["homephone"];
 	$cellphone=$_REQUEST["cellphone"];
+	$card=$_REQUEST["card"];
 
 
 	$isPost= $_SERVER["REQUEST_METHOD"]=="POST";
@@ -30,8 +31,9 @@
 	$isPostalError=$isPost && !preg_match('/^[\d]{6}$/', $postal);
 	$isPhoneError=$isPost && !preg_match($phonePattern, $homephone);
 	$isPhoneError1=$isPost && !preg_match($phonePattern, $cellphone);
+	$isCardError=$isPost && !preg_match('/^[\d]{4}[\s]{0,1}[\d]{4}[\s]{0,1}[\d]{4}[\s]{0,1}[\d]{4}$/', $card);
 
-	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError || $isPhoneError || $isPhoneError1;
+	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError || $isPhoneError || $isPhoneError1 || $isCardError;
 
 
 
@@ -104,6 +106,10 @@
 
 					<input type="text" name="cellphone" value="<?= $cellphone ?>" required> Mobile Phone number (e.g. 99 8881411)<br />
 					<span class="error"><?= $isPhoneError1?"It is not a valid phone number! Please enter in 9-digit form" : "" ?></span>
+					<br />
+
+					<input type="text" name="card" value="<?= $card ?>" required> Credit Card Number (e.g. 1234 1234 1234 1234)<br />
+					<span class="error"><?= $isCardError?"It is not a valid credit card number! Please enter in 16-digit form" : "" ?></span>
 					<br />
 
 					
