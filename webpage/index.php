@@ -16,6 +16,7 @@
 	$card=$_REQUEST["card"];
 	$cardexpiry=$_REQUEST["cardexpiry"];
 	$salary=$_REQUEST["salary"];
+	$gpa=$_REQUEST["gpa"];
 
 
 	$isPost= $_SERVER["REQUEST_METHOD"]=="POST";
@@ -38,6 +39,8 @@
 	#Fail: (10000,000), (1,00,00) -  --> about this following pattern:
 	$moneyAmountPattern1='/^(\d+|\d{1,3}(,\d{3})*)(\.\d+)?$/';
 
+	$gpaPattern='/^(([0-3][\.][0-9]{2})|([4][\.]([0-4][0-9])|(50){2}))$/';
+
 
 
 	
@@ -55,6 +58,7 @@
 	$isCardError=$isPost && !preg_match('/^[\d]{4}[\s]{0,1}[\d]{4}[\s]{0,1}[\d]{4}[\s]{0,1}[\d]{4}$/', $card);
 	$isCardExpiryError=$isPost && !preg_match($cardexpiryPattern, $cardexpiry);
 	$isMoneyAmountError=$isPost && !preg_match($moneyAmountPattern1, $salary);
+	$isGpaError=$isPost &&!preg_match($gpaPattern, $gpa);
 
 
 	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError || $isPhoneError || $isPhoneError1 || $isCardError || $isMoneyAmountError;
@@ -120,6 +124,12 @@
 					<input type="text" name="salary" placeholder="UZS 1,000,000.00" value="<?= $salary ?>" required> Monthly Salary in UZS (e.g. 200,000.00)<br />
 					<span class="error"><?= $isMoneyAmountError?"Please enter in consistent form" : "" ?></span>
 					<br />	
+
+
+					<input type="text" name="gpa" placeholder="0<GPA<4.50" value="<?= $gpa ?>" required> GPA (e.g. 4.00)<br />
+					<span class="error"><?= $isGpaError?"Please enter the floating point number in range of 0 to 4.50" : "" ?></span>
+					<br />	
+
 
   					<input type="text" name="addr" value="<?= $addr ?>" required> Address<br />
 					<br />
