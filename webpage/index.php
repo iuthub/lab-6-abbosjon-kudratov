@@ -42,16 +42,17 @@
 
 	$gpaPattern='/^(([0-3][\.][0-9]{2})|([4][\.]([0-4][0-9])|(50){2}))$/';
 	$urlPattern='/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/';
-
-
-
+	$passwordCase1Pattern='/\A(?=\w{6,10}\z)/'; ## the password must have between six and ten word characters \w
+	$passwordCase2Pattern='/\A(?=\w{6,10}\z)(?=[^a-z]*[a-z])/'; ##at least one lowercase character [a-z]
+	$passwordCase3Pattern='/\A(?=\w{6,10}\z)(?=[^a-z]*[a-z])(?=(?:[^A-Z]*[A-Z]){3})/'; ##must include at least three uppercase characters [A-Z]
+	$passwordCase4Pattern='/\A(?=\w{6,10}\z)(?=[^a-z]*[a-z])(?=(?:[^A-Z]*[A-Z]){3})(?=\D*\d)/'; ##must include at least one digit \d
 	
 
 	$isNameError=$isPost && !preg_match('/[a-z]{2,}/i', $name); 
 	$isGenderError=$isPost && !$gender;
 	$isBirthdateError=$isPost && !$birthdate;
 	$isUsernameError=$isPost && !preg_match('/[\w]{5,}/i', $username);
-	$isPasswordError=$isPost && !preg_match('/[\w]{8,}/i', $username);
+	$isPasswordError=$isPost && !preg_match('/[\w]{8,}/i', $username); ##check for having min. 8 characters
 	$isPasswordError1=  ($password!=$password1);
 	$isEmailError=$isPost && !preg_match($mailPattern, $email);
 	$isPostalError=$isPost && !preg_match('/^[\d]{6}$/', $postal);
@@ -63,8 +64,27 @@
 	$isGpaError=$isPost &&!preg_match($gpaPattern, $gpa);
 	$isWebsiteError=$isPost && !preg_match($urlPattern, $website);
 
+	$isPasswordErrorCase1=$isPost &&!preg_match($passwordCase1Pattern, $password);
+	$isPasswordErrorCase2=$isPost &&!preg_match($passwordCase2Pattern, $password);
+	$isPasswordErrorCase3=$isPost &&!preg_match($passwordCase3Pattern, $password);
+	$isPasswordErrorCase4=$isPost &&!preg_match($passwordCase4Pattern, $password);
 
-	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError || $isPhoneError || $isPhoneError1 || $isCardError || $isMoneyAmountError|| $isGpaError;
+
+	$passwordErrorName='';
+	if($isPasswordError){
+	$passwordErrorName="Minimum password length is 8!";}
+	if($isPasswordErrorCase1){
+	$passwordErrorName="The password must have between six and ten word characters!";}
+	if($isPasswordErrorCase2){
+	$passwordErrorName="The password must include at least one lowercase character!";}
+	if($isPasswordErrorCase3){
+	$passwordErrorName="The password must include at least three uppercase characters!";}
+	if($isPasswordErrorCase4){
+	$passwordErrorName="The password must include at least one digit!";}
+
+
+
+	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError || $isPhoneError || $isPhoneError1 || $isCardError || $isMoneyAmountError|| $isGpaError||$isPasswordErrorCase1 ||$isPasswordErrorCase2 || $isPasswordErrorCase3 ||$isPasswordErrorCase4;
 
 
 
@@ -157,7 +177,7 @@
 					<br />
 					
 					<input type="password" name="password" value="<?= $password ?>"  required> Password<br />
-					<span class="error"><?= $isPasswordError?"Password should consist of minimum 8 characters!" : "" ?></span> <br />
+					<span class="error"><?= $passwordErrorName ?></span> <br />
 
 					<input type="password" name="password1" value="<?= $password1 ?>"  required> Confirm Password<br />
 					<span class="error"><?= $isPasswordError1?"Passwords don't match!" : "" ?></span> <br />
