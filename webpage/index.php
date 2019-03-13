@@ -1,3 +1,4 @@
+<!-- Copyright ©2019 Abbosjon Kudratov -->
 
 <?php 
 
@@ -14,6 +15,7 @@
 	$cellphone=$_REQUEST["cellphone"];
 	$card=$_REQUEST["card"];
 	$cardexpiry=$_REQUEST["cardexpiry"];
+	$salary=$_REQUEST["salary"];
 
 
 	$isPost= $_SERVER["REQUEST_METHOD"]=="POST";
@@ -21,7 +23,24 @@
 	$phonePattern='/^[\d]{2}[\s]{0,1}[\d]{7}$/';
 	$mailPattern='/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
 	$cardexpiryPattern='/^(([0-2][0-9])|([3][0-1]))[\.]([0-1][0-2])[\.]((?:19|20)\d{2})$/';
+	
 
+	#Commas required
+	#Cannot be empty
+	#Pass: (1,000.100), (.001)
+	#Fail: (1000), ()    			---> about this following pattern:
+	$moneyAmountPattern='/^(?=.)(\d{1,3}(,\d{3})*)?(\.\d+)?$/'; 
+
+
+	#Commas optional as long as they're consistent
+	#Can't start with "."
+	#Pass: (1,000,000), (1000000)
+	#Fail: (10000,000), (1,00,00) -  --> about this following pattern:
+	$moneyAmountPattern1='/^(\d+|\d{1,3}(,\d{3})*)(\.\d+)?$/';
+
+
+
+	
 
 	$isNameError=$isPost && !preg_match('/[a-z]{2,}/i', $name); 
 	$isGenderError=$isPost && !$gender;
@@ -35,8 +54,10 @@
 	$isPhoneError1=$isPost && !preg_match($phonePattern, $cellphone);
 	$isCardError=$isPost && !preg_match('/^[\d]{4}[\s]{0,1}[\d]{4}[\s]{0,1}[\d]{4}[\s]{0,1}[\d]{4}$/', $card);
 	$isCardExpiryError=$isPost && !preg_match($cardexpiryPattern, $cardexpiry);
+	$isMoneyAmountError=$isPost && !preg_match($moneyAmountPattern1, $salary);
 
-	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError || $isPhoneError || $isPhoneError1 || $isCardError;
+
+	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError || $isPhoneError || $isPhoneError1 || $isCardError || $isMoneyAmountError;
 
 
 
@@ -95,6 +116,11 @@
 					
 					<br />
 					<br />
+					
+					<input type="text" name="salary" placeholder="UZS 1,000,000.00" value="<?= $salary ?>" required> Monthly Salary in UZS (e.g. 200,000.00)<br />
+					<span class="error"><?= $isMoneyAmountError?"Please enter in consistent form" : "" ?></span>
+					<br />	
+
   					<input type="text" name="addr" value="<?= $addr ?>" required> Address<br />
 					<br />
 					<input type="text" name="city" value="<?= $city ?>" required> City<br />
