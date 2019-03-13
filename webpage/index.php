@@ -9,6 +9,7 @@
 	$password=$_REQUEST["password"];
 	$password1=$_REQUEST["password1"];
 	$email=$_REQUEST["email"];
+	$postal=$_REQUEST["postal"];
 	
 
 	$isPost= $_SERVER["REQUEST_METHOD"]=="POST";
@@ -23,8 +24,9 @@
 	$isPasswordError=$isPost && !preg_match('/[\w]{8,}/i', $username);
 	$isPasswordError1=  ($password!=$password1);
 	$isEmailError=$isPost && !preg_match($mailPattern, $email);
+	$isPostalError=$isPost && !preg_match('/^[\d]{6}$/', $postal);
 
-	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1;
+	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError;
 
 
 
@@ -73,12 +75,23 @@
 					
 					
 					Your Marital Status:
-					<select name="status">
+					<select name="status" required>
+						<option disabled selected value> --Select an option--</option>
     					<option value="single">Single</option>
    						<option value="married">Married</option>
    						<option value="divorced">Divorced</option>
     					<option value="widowed">Widowed</option>
   					</select>  
+					
+					<br />
+					<br />
+  					<input type="text" name="addr" value="<?= $addr ?>" required> Address<br />
+					<br />
+					<input type="text" name="city" value="<?= $city ?>" required> City<br />
+					<br />
+					<input type="text" name="postal" value="<?= $postal ?>" required> Postal Code<br />
+					<span class="error"><?= $isPostalError?"It is not a valid postal code! Please enter digits(6) only" : "" ?></span>
+					<br />
 
 					
 
@@ -86,7 +99,7 @@
 
 				&nbsp;
 			
-			<fieldset>	<legend> Username & Password </legend>
+			<fieldset>	<legend> Username & Password and so on:</legend>
 
 					<input type="text" name="username" value="<?= $username?>"  required> Username<br />
 					<span class="error"><?= $isUsernameError?"It has to contain at least 5 characters!" : "" ?></span>
