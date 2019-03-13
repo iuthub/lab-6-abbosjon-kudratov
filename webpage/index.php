@@ -17,6 +17,7 @@
 	$cardexpiry=$_REQUEST["cardexpiry"];
 	$salary=$_REQUEST["salary"];
 	$gpa=$_REQUEST["gpa"];
+	$website=$_REQUEST["website"];
 
 
 	$isPost= $_SERVER["REQUEST_METHOD"]=="POST";
@@ -40,6 +41,7 @@
 	$moneyAmountPattern1='/^(\d+|\d{1,3}(,\d{3})*)(\.\d+)?$/';
 
 	$gpaPattern='/^(([0-3][\.][0-9]{2})|([4][\.]([0-4][0-9])|(50){2}))$/';
+	$urlPattern='/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/';
 
 
 
@@ -59,9 +61,10 @@
 	$isCardExpiryError=$isPost && !preg_match($cardexpiryPattern, $cardexpiry);
 	$isMoneyAmountError=$isPost && !preg_match($moneyAmountPattern1, $salary);
 	$isGpaError=$isPost &&!preg_match($gpaPattern, $gpa);
+	$isWebsiteError=$isPost && !preg_match($urlPattern, $website);
 
 
-	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError || $isPhoneError || $isPhoneError1 || $isCardError || $isMoneyAmountError;
+	$isFormError=$isNameError || $isGenderError || $isBirthdateError || $isUsernameError || $isPasswordError ||$isPasswordError1 || $isPostalError || $isPhoneError || $isPhoneError1 || $isCardError || $isMoneyAmountError|| $isGpaError;
 
 
 
@@ -161,7 +164,9 @@
 
 					<input type="text" name="email" placeholder="example@company.com" value="<?= $email ?>" required> Email<br />
 					<span class="error"><?= $isEmailError?"It is not a valid email!" : "" ?></span> <br />
-
+					
+					<input type="text" name="website" placeholder="http://example.com" value="<?= $website ?>" required> Website<br />
+					<span class="error"><?= $isWebsiteError?"It is not a valid URL!" : "" ?></span> <br />
 
 
 			</fieldset>
