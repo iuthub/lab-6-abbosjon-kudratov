@@ -127,7 +127,7 @@
 
 
 					<input type="text" name="gpa" placeholder="0<GPA<4.50" value="<?= $gpa ?>" required> GPA (e.g. 4.00)<br />
-					<span class="error"><?= $isGpaError?"Please enter the floating point number in range of 0 to 4.50" : "" ?></span>
+					<span class="error"><?= $isGpaError?"Please enter the floating point number in range of 0 to 4.5" : "" ?></span>
 					<br />	
 
 
