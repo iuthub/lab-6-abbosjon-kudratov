@@ -40,7 +40,7 @@
 	#Fail: (10000,000), (1,00,00) -  --> about this following pattern:
 	$moneyAmountPattern1='/^(\d+|\d{1,3}(,\d{3})*)(\.\d+)?$/';
 
-	$gpaPattern='/^(([0-3][\.][0-9]{2})|([4][\.]([0-4][0-9])|(50){2}))$/';
+	$gpaPattern='/^4\.(50|[0-4][0-9])|[0-3]\.\d{2}$/';
 	$urlPattern='/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/';
 	$passwordCase1Pattern='/\A(?=\w{6,10}\z)/'; ## the password must have between six and ten word characters \w
 	$passwordCase2Pattern='/\A(?=\w{6,10}\z)(?=[^a-z]*[a-z])/'; ##at least one lowercase character [a-z]
